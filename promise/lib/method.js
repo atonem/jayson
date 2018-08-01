@@ -25,7 +25,7 @@ module.exports = PromiseMethod;
  * @param {Function} outerCallback
  * @return {Promise}
  */
-PromiseMethod.prototype.execute = function(server, requestParams, outerCallback) {
+PromiseMethod.prototype.execute = function(server, requestParams, outerCallback, meta) {
   var wasPromised = false;
 
   var promise = jayson.Method.prototype.execute.call(this, server, requestParams, function() {
@@ -33,7 +33,7 @@ PromiseMethod.prototype.execute = function(server, requestParams, outerCallback)
       return; // ignore any invocations of the callback if a promise was returned
     }
     outerCallback.apply(null, arguments);
-  });
+  }, meta);
 
   wasPromised = promise && _.isFunction(promise.then);
 
